@@ -1,3 +1,4 @@
+
 module.exports = function createDreamTeam(team) {
 
   if (!Array.isArray(team)) { return false; }

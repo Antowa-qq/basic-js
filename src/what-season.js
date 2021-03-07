@@ -1,3 +1,4 @@
+
 module.exports = function getSeason(date) {
 
   if (date === undefined) {

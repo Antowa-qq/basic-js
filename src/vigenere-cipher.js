@@ -1,3 +1,4 @@
+
 class VigenereCipheringMachine {
 
     constructor(dircetMachine = true) {
@@ -57,7 +58,6 @@ class VigenereCipheringMachine {
 
         return this.dircetMachine ? key.join('').toUpperCase() : key.reverse().join('').toUpperCase();
     }
-
 }
 
 module.exports = VigenereCipheringMachine;

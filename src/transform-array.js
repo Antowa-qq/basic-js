@@ -1,30 +1,32 @@
 module.exports = function transform(arr) {
+  if (!Array.isArray(arr)) {
+    throw new Error();
+  }
 
+  const controls = ["--double-next", "--double-prev", "--discard-next", "--discard-prev"];
 
-    if (!Array.isArray(arr)) { throw new Error(); }
-
-    const controls = ['--double-next', '--double-prev', '--discard-next', '--discard-prev'];
-
-    let result = [];
-
-    for (let i = 0; i < arr.length; i++) {
-        switch (arr[i]) {
-            case '--double-next':
-                if (i != arr.length - 1) { result.push(arr[i + 1]); }
-                break;
-            case '--double-prev':
-                if (i != 0) { result.push(arr[i - 1]); }
-                break;
-            case '--discard-next':
-                if (i != arr.length - 1) { i += 1; }
-                break;
-            case '--discard-prev':
-                if (i != 0) { result.pop(); }
-                break;
-            default:
-                result.push(arr[i]);
-        }
+  return arr.reduce((prev, cur, indx) => {
+    if (controls.includes(cur)) {
+      return prev;
     }
 
-    return result;
+    if (arr[indx - 1] == `--discard-next`) {
+      return prev;
+    }
+
+    if (arr[indx - 1] == `--double-next`) {
+      prev.push(cur, cur);
+    } else {
+      prev.push(cur);
+    }
+
+    if (arr[indx + 1] == `--discard-prev`) {
+      prev.splice(prev.length - 1, 1);
+    }
+
+    if (arr[indx + 1] == `--double-prev`) {
+      prev.push(cur);
+    }
+    return prev;
+  }, []);
 };
